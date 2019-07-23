@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "434800023200",
+    "firebase_url": "https://chat-app-cd494.firebaseio.com",
+    "project_id": "chat-app-cd494",
+    "storage_bucket": "chat-app-cd494.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:434800023200:android:291c7eec3353b4b5",
+        "android_client_info": {
+          "package_name": "co.sohan.flash_chat"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "434800023200-chqqutal0gd22uh4sbntavmm2gsht6gb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAXIlTiqCv0yTKSoPBw96PZju1_pCijWnc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "434800023200-chqqutal0gd22uh4sbntavmm2gsht6gb.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
