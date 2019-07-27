@@ -36,21 +36,21 @@ class _ChatScreenState extends State<ChatScreen> {
       print(e);
     }
   }
+//
+//  void getMessages() async {
+//    final messages = await _firestore.collection('message').getDocuments();
+//    for (var message in messages.documents) {
+//      print(message.data);
+//    }
+//  }
 
-  void getMessages() async {
-    final messages = await _firestore.collection('message').getDocuments();
-    for (var message in messages.documents) {
-      print(message.data);
-    }
-  }
-
-  void messagesStream() async {
-    await for (var snapshot in _firestore.collection('message').snapshots()) {
-      for (var message in snapshot.documents) {
-        print(message.data);
-      }
-    }
-  }
+//  void messagesStream() async {
+//    await for (var snapshot in _firestore.collection('message').snapshots()) {
+//      for (var message in snapshot.documents) {
+//        print(message.data);
+//      }
+//    }
+//  }
 
   @override
   Widget build(BuildContext context) {
@@ -121,6 +121,7 @@ class _ChatScreenState extends State<ChatScreen> {
 }
 
 class MyStreamBuilder extends StatelessWidget {
+
   const MyStreamBuilder({
     Key key,
     @required Firestore firestore,
@@ -134,7 +135,8 @@ class MyStreamBuilder extends StatelessWidget {
     return StreamBuilder<QuerySnapshot>(
       stream: _firestore.collection('message').snapshots(),
       builder: (context, snapshot) {
-        if (!snapshot.hasData) {
+        if (snapshot.hasError) {
+          print("inside ererro");
           return Center(
             child: CircularProgressIndicator(
               backgroundColor: Colors.lightBlueAccent,
@@ -142,24 +144,29 @@ class MyStreamBuilder extends StatelessWidget {
           );
         }
 
-        final messages = snapshot.data.documents.reversed;
-        List<MessageBubble> messageWidgets = [];
-        for (var message in messages) {
-          final messageText = message.data['text'];
-          final messageSender = message.data['sender'];
-          final currentUser = loggedInUser.email;
+        if(snapshot.hasData) {
+          final messages = snapshot.data.documents.reversed;
+          List<MessageBubble> messageWidgets = [];
+          for (var message in messages) {
+            final messageText = message.data['text'];
+            final messageSender = message.data['sender'];
+            final currentUser = loggedInUser.email;
 
-          final messageWidget = MessageBubble(text: messageText, sender: messageSender,isMe: currentUser==messageSender,);
-          messageWidgets.add(messageWidget);
+            final messageWidget = MessageBubble(text: messageText,
+              sender: messageSender,
+              isMe: currentUser == messageSender,);
+            messageWidgets.add(messageWidget);
+          }
+          return Expanded(
+            child: ListView(
+              reverse: true,
+
+              padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 20.0),
+              children: messageWidgets,
+            ),
+          );
         }
-        return Expanded(
-          child: ListView(
-            reverse: true,
-
-            padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 20.0),
-            children: messageWidgets,
-          ),
-        );
+        return(Text("error in loading data"));
       },
     );
   }
